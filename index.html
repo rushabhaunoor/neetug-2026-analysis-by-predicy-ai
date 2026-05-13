@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEET 2026 Code 11 - Topic-Wise Analysis</title>
+    <style>
+        :root {
+            --bg: #f5f6fa;
+            --card-bg: #ffffff;
+            --text: #2d3436;
+            --text-light: #636e72;
+            --physics: #0984e3;
+            --chemistry: #e17055;
+            --biology: #00b894;
+            --easy: #27ae60;
+            --medium: #f39c12;
+            --hard: #e74c3c;
+            --border: #e0e4e8;
+            --shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            --radius: 12px;
+            --transition: 0.25s ease;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 16px;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #fff;
+            padding: 28px 32px;
+            border-radius: var(--radius);
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+        .header h1 {
+            font-size: 1.7rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .header .subtitle {
+            font-size: 0.9rem;
+            opacity: 0.85;
+        }
+        .stats-row {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+        .stat-chip {
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 10px 16px;
+            border-radius: 24px;
+            text-align: center;
+            min-width: 80px;
+            backdrop-filter: blur(4px);
+        }
+        .stat-chip .val {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .stat-chip .lbl {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.75;
+        }
+
+        /* Promo Banner */
+        .promo-banner {
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            border-radius: var(--radius);
+            padding: 28px 32px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            border: 2px solid #ff758c;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        .promo-content h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #4a0e2e;
+            margin-bottom: 8px;
+        }
+        .promo-content p {
+            color: #5e1a3c;
+            font-size: 1rem;
+            margin-bottom: 12px;
+        }
+        .promo-content strong {
+            color: #c0392b;
+            font-size: 1.35rem;
+            font-weight: 800;
+        }
+        .promo-button {
+            display: inline-block;
+            color: #fff;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: background 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 14px rgba(192, 57, 43, 0.4);
+            white-space: nowrap;
+        }
+        .promo-button:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Subject Sections */
+        .subject-section {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        .subject-header {
+            padding: 16px 24px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            font-size: 1.15rem;
+            letter-spacing: -0.3px;
+            transition: var(--transition);
+            user-select: none;
+            border-bottom: 1px solid transparent;
+        }
+        .subject-header.physics {
+            background: #eef5fc;
+            color: var(--physics);
+            border-left: 5px solid var(--physics);
+        }
+        .subject-header.chemistry {
+            background: #fef5f2;
+            color: var(--chemistry);
+            border-left: 5px solid var(--chemistry);
+        }
+        .subject-header.biology {
+            background: #edfaf6;
+            color: var(--biology);
+            border-left: 5px solid var(--biology);
+        }
+        .subject-header .badge {
+            font-size: 0.8rem;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        .badge.physics {
+            background: #d6eaf8;
+            color: #0652a3;
+        }
+        .badge.chemistry {
+            background: #fde3db;
+            color: #a04028;
+        }
+        .badge.biology {
+            background: #c8f0e3;
+            color: #0d6b4f;
+        }
+        .subject-body {
+            padding: 20px 24px;
+            display: block;
+        }
+        .subject-body.collapsed {
+            display: none;
+        }
+
+        /* Topic Card */
+        .topic-card {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            margin-bottom: 14px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        .topic-card:hover {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.07);
+        }
+        .topic-header {
+            padding: 12px 16px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fafbfc;
+            font-weight: 600;
+            font-size: 0.95rem;
+            user-select: none;
+            border-bottom: 1px solid var(--border);
+            transition: var(--transition);
+        }
+        .topic-header:hover {
+            background: #f1f3f5;
+        }
+        .topic-header .freq {
+            font-size: 0.75rem;
+            background: #ecf0f1;
+            padding: 3px 10px;
+            border-radius: 12px;
+            color: #555;
+        }
+        .topic-body {
+            padding: 0;
+        }
+        .topic-body.collapsed {
+            display: none;
+        }
+
+        /* Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.82rem;
+        }
+        table thead th {
+            background: #f8f9fa;
+            padding: 10px 12px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #555;
+            border-bottom: 2px solid #ddd;
+            position: sticky;
+            top: 0;
+        }
+        table tbody td {
+            padding: 9px 12px;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
+        }
+        table tbody tr:hover {
+            background: #fafcfd;
+        }
+        .subtopic-row {
+            background: #fdfdff;
+        }
+        .subsubtopic-row {
+            background: #fff;
+        }
+        .subsubtopic-row td:first-child {
+            padding-left: 32px;
+        }
+        .diff-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+        .diff-dot.easy {
+            background: var(--easy);
+        }
+        .diff-dot.medium {
+            background: var(--medium);
+        }
+        .diff-dot.hard {
+            background: var(--hard);
+        }
+        .diff-tag {
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+        }
+        .diff-tag.easy {
+            background: #d5f5e3;
+            color: #1e7e34;
+        }
+        .diff-tag.medium {
+            background: #fef3cd;
+            color: #b8860b;
+        }
+        .diff-tag.hard {
+            background: #fde8e8;
+            color: #c0392b;
+        }
+        .q-nums {
+            font-size: 0.7rem;
+            color: #888;
+            font-style: italic;
+        }
+        .arrow {
+            font-size: 0.7rem;
+            margin-right: 4px;
+            transition: var(--transition);
+        }
+        .topic-header.open .arrow {
+            transform: rotate(90deg);
+        }
+
+        /* Summary bar */
+        .summary-mini {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+        }
+        .summary-mini span {
+            font-size: 0.7rem;
+            padding: 4px 10px;
+            border-radius: 14px;
+            font-weight: 600;
+        }
+        .s-easy {
+            background: #d5f5e3;
+            color: #1e7e34;
+        }
+        .s-medium {
+            background: #fef3cd;
+            color: #b8860b;
+        }
+        .s-hard {
+            background: #fde8e8;
+            color: #c0392b;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                padding: 18px 16px;
+            }
+            .header h1 {
+                font-size: 1.3rem;
+            }
+            .promo-banner {
+                padding: 18px 16px;
+                flex-direction: column;
+                text-align: center;
+            }
+            .promo-content h2 {
+                font-size: 1.3rem;
+            }
+            .subject-body {
+                padding: 12px 8px;
+            }
+            table {
+                font-size: 0.7rem;
+            }
+            table thead th,
+            table tbody td {
+                padding: 6px 6px;
+            }
+            .stat-chip {
+                padding: 7px 10px;
+                min-width: 55px;
+            }
+            .stat-chip .val {
+                font-size: 1.1rem;
+            }
+        }
+        @media print {
+            body {
+                background: #fff;
+                padding: 0;
+            }
+            .subject-body {
+                display: block !important;
+            }
+            .topic-body {
+                display: block !important;
+            }
+            .header {
+                background: #1a1a2e !important;
+                -webkit-print-color-adjust: exact;
+            }
+            .subject-header {
+                -webkit-print-color-adjust: exact;
+            }
+            table {
+                font-size: 0.65rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- HEADER -->
+        <div class="header">
+            <div>
+                <h1>📋 NEET 2026 Code 11 — Topic-Wise Analysis</h1>
+                <p class="subtitle">Complete breakdown of all 180 questions with sub-topic mapping, frequency & difficulty</p>
+            </div>
+            <div class="stats-row">
+                <div class="stat-chip"><span class="val">180</span><span class="lbl">Total Qs</span></div>
+                <div class="stat-chip"><span class="val">45</span><span class="lbl">Physics</span></div>
+                <div class="stat-chip"><span class="val">45</span><span class="lbl">Chemistry</span></div>
+                <div class="stat-chip"><span class="val">90</span><span class="lbl">Biology</span></div>
+                <div class="stat-chip"><span class="val">~62%</span><span class="lbl">Easy</span></div>
+                <div class="stat-chip"><span class="val">~32%</span><span class="lbl">Medium</span></div>
+                <div class="stat-chip"><span class="val">~6%</span><span class="lbl">Hard</span></div>
+            </div>
+        </div>
+
+        <!-- PHYSICS SECTION -->
+        <div class="subject-section">
+            <div class="subject-header physics" onclick="toggleSection(this)">
+                ⚡ PHYSICS — 45 Questions
+                <span class="badge physics">24 Topics</span>
+            </div>
+            <div class="subject-body" id="physics-body">
+                <div class="summary-mini">
+                    <span class="s-easy">Easy: ~20 Qs</span><span class="s-medium">Medium: ~20 Qs</span><span class="s-hard">Hard: ~5 Qs</span>
+                </div>
+
+                <!-- Mechanics -->
+                <div class="topic-card">
+                    <div class="topic-header" onclick="toggleTopic(this)">
+                        <span><span class="arrow">▶</span> 🔧 Mechanics</span><span class="freq">11 Qs</span>
+                    </div>
+                    <div class="topic-body collapsed">
+                        <table>
+                            <thead><tr><th>Sub-Topic</th><th>Sub-Sub-Topic</th><th>Q#</th><th>Diff.</th></tr></thead>
+                            <tbody>
+                                <tr class="subtopic-row"><td rowspan="2"><strong>Kinematics</strong></td><td>Velocity-time graphs (vertical throw)</td><td>15</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Free fall & reaction time (s=½gt²)</td><td>26</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subtopic-row"><td rowspan="2"><strong>Laws of Motion</strong></td><td>Static friction & max acceleration</td><td>11</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Resultant force (mutually perpendicular)</td><td>22</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subtopic-row"><td><strong>Work, Energy & Power</strong></td><td>Power of crane (P=mgh/t)</td><td>24</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subtopic-row"><td rowspan="2"><strong>Rotational Motion</strong></td><td>Angular speed & revolutions (ω avg)</td><td>4</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Moment of inertia of ring (parallel axis)</td><td>35</td><td><span class="diff-tag hard">Hard</span></td></tr>
+                                <tr class="subtopic-row"><td><strong>Gravitation</strong></td><td>Work done to raise mass (ΔU, g=GM/R²)</td><td>13</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subtopic-row"><td><strong>Mech. Prop. of Solids</strong></td><td>Elastic moduli matching (Y, B, K, σ)</td><td>2</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subtopic-row"><td><strong>Mech. Prop. of Fluids</strong></td><td>Pressure at depth (P=P₀+hρg)</td><td>44</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subtopic-row"><td rowspan="3"><strong>Oscillations</strong></td><td>Simple pendulum — KE variation with t</td><td>5</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Pendulum — total energy & v_max</td><td>16</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Pendulum — effective length from T</td><td>33</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subtopic-row"><td><strong>Waves</strong></td><td>Travelling harmonic wave — phase difference</td><td>21</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Thermodynamics -->
+                <div class="topic-card">
+                    <div class="topic-header" onclick="toggleTopic(this)">
+                        <span><span class="arrow">▶</span> 🔥 Thermodynamics</span><span class="freq">1 Q</span>
+                    </div>
+                    <div class="topic-body collapsed">
+                        <table>
+                            <thead><tr><th>Sub-Topic</th><th>Sub-Sub-Topic</th><th>Q#</th><th>Diff.</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>First Law</strong></td><td>Internal energy change (ΔU=q−w)</td><td>34</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Electromagnetism -->
+                <div class="topic-card">
+                    <div class="topic-header" onclick="toggleTopic(this)">
+                        <span><span class="arrow">▶</span> ⚡ Electromagnetism</span><span class="freq">15 Qs</span>
+                    </div>
+                    <div class="topic-body collapsed">
+                        <table>
+                            <thead><tr><th>Sub-Topic</th><th>Sub-Sub-Topic</th><th>Q#</th><th>Diff.</th></tr></thead>
+                            <tbody>
+                                <tr class="subtopic-row"><td rowspan="3"><strong>Electrostatic Potential & Capacitance</strong></td><td>Capacitor networks (series-parallel)</td><td>12</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Energy loss in capacitor sharing</td><td>23</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Conductors in electrostatics (E=0 inside)</td><td>41</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subtopic-row"><td rowspan="5"><strong>Current Electricity</strong></td><td>Diode circuits & equivalent resistance</td><td>3</td><td><span class="diff-tag hard">Hard</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Terminal voltage (V=E−Ir)</td><td>6</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Wheatstone bridge & current</td><td>27</td><td><span class="diff-tag hard">Hard</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Power consumed (P=V²/R) with voltage drop</td><td>28</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Meter bridge — interchanging cell & galvanometer</td><td>37</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subtopic-row"><td rowspan="3"><strong>Moving Charges & Magnetism</strong></td><td>B at centre of circular coil & magnetic moment</td><td>29</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Galvanometer to ammeter (shunt)</td><td>36</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subsubtopic-row"><td>B-field variation in straight wire (B∝r, B∝1/r)</td><td>39</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subtopic-row"><td><strong>Electromagnetic Induction</strong></td><td>Motional EMF (e=Blv)</td><td>30</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subtopic-row"><td rowspan="2"><strong>Alternating Current</strong></td><td>Resonance frequency of LCR circuit</td><td>19</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Peak current timing (t=1/4f)</td><td>38</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Optics -->
+                <div class="topic-card">
+                    <div class="topic-header" onclick="toggleTopic(this)">
+                        <span><span class="arrow">▶</span> 🔬 Optics</span><span class="freq">4 Qs</span>
+                    </div>
+                    <div class="topic-body collapsed">
+                        <table>
+                            <thead><tr><th>Sub-Topic</th><th>Sub-Sub-Topic</th><th>Q#</th><th>Diff.</th></tr></thead>
+                            <tbody>
+                                <tr class="subtopic-row"><td rowspan="2"><strong>Ray Optics</strong></td><td>Prism — minimum deviation (δ=i+e−A)</td><td>8</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Concave lens — ray parallel to principal axis</td><td>43</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subtopic-row"><td rowspan="2"><strong>Wave Optics</strong></td><td>YDSE — intensity with path difference λ/3</td><td>17</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Interference/diffraction & energy conservation</td><td>20</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Modern Physics -->
+                <div class="topic-card">
+                    <div class="topic-header" onclick="toggleTopic(this)">
+                        <span><span class="arrow">▶</span> 🧪 Modern Physics</span><span class="freq">10 Qs</span>
+                    </div>
+                    <div class="topic-body collapsed">
+                        <table>
+                            <thead><tr><th>Sub-Topic</th><th>Sub-Sub-Topic</th><th>Q#</th><th>Diff.</th></tr></thead>
+                            <tbody>
+                                <tr class="subtopic-row"><td rowspan="2"><strong>Dual Nature of Radiation & Matter</strong></td><td>Photon energy, de Broglie, Compton matching</td><td>9</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Photoelectric effect — threshold wavelength</td><td>42</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subtopic-row"><td><strong>Atoms</strong></td><td>Hydrogen — radial distance (E=kq²/2r)</td><td>10</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subtopic-row"><td rowspan="2"><strong>Nuclei</strong></td><td>Nuclear volume & mass defect statements</td><td>31</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Nuclear density & mass number (R=R₀A^⅓)</td><td>32</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subtopic-row"><td rowspan="2"><strong>Semiconductor Electronics</strong></td><td>Diode — voltage waveform across D</td><td>18</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subsubtopic-row"><td>p-n junction — forward bias current</td><td>40</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subtopic-row"><td><strong>Electromagnetic Waves</strong></td><td>EM wave production matching</td><td>45</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Units & Measurements -->
+                <div class="topic-card">
+                    <div class="topic-header" onclick="toggleTopic(this)">
+                        <span><span class="arrow">▶</span> 📏 Units & Measurements</span><span class="freq">3 Qs</span>
+                    </div>
+                    <div class="topic-body collapsed">
+                        <table>
+                            <thead><tr><th>Sub-Topic</th><th>Sub-Sub-Topic</th><th>Q#</th><th>Diff.</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Speed-distance</strong></td><td>New unit system (c=1, time conversion)</td><td>1</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr><td><strong>Significant Figures</strong></td><td>Density calculation & rounding</td><td>14</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr><td><strong>Vernier Callipers</strong></td><td>Least count (VSD-MSD method)</td><td>25</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CHEMISTRY SECTION -->
+        <div class="subject-section">
+            <div class="subject-header chemistry" onclick="toggleSection(this)">
+                🧪 CHEMISTRY — 45 Questions
+                <span class="badge chemistry">18 Topics</span>
+            </div>
+            <div class="subject-body collapsed" id="chemistry-body">
+                <div class="summary-mini">
+                    <span class="s-easy">Easy: ~18 Qs</span><span class="s-medium">Medium: ~23 Qs</span><span class="s-hard">Hard: ~4 Qs</span>
+                </div>
+
+                <!-- Physical Chemistry -->
+                <div class="topic-card">
+                    <div class="topic-header" onclick="toggleTopic(this)">
+                        <span><span class="arrow">▶</span> 📐 Physical Chemistry</span><span class="freq">19 Qs</span>
+                    </div>
+                    <div class="topic-body collapsed">
+                        <table>
+                            <thead><tr><th>Sub-Topic</th><th>Sub-Sub-Topic</th><th>Q#</th><th>Diff.</th></tr></thead>
+                            <tbody>
+                                <tr class="subtopic-row"><td rowspan="2"><strong>Atomic Structure</strong></td><td>Quantum numbers → orbital designation</td><td>4</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Photon count from bulb power</td><td>11</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subtopic-row"><td rowspan="2"><strong>Thermodynamics</strong></td><td>ΔG & spontaneity (ΔH=ΔU+ΔnRT)</td><td>3</td><td><span class="diff-tag hard">Hard</span></td></tr>
+                                <tr class="subsubtopic-row"><td>First law — ΔU=q−w (sign convention)</td><td>29</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subtopic-row"><td rowspan="3"><strong>Equilibrium</strong></td><td>Solubility product — pH from K_sp</td><td>5</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Buffer pH (pOH=pKb+log[salt]/[base])</td><td>33</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Kp vs Kc (Δn≠0 criterion)</td><td>42</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subtopic-row"><td rowspan="3"><strong>Chemical Kinetics</strong></td><td>Order of reaction & rate constant units</td><td>9</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Zero-order — [R] vs t straight line</td><td>30</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Arrhenius — Ea from ln k equation</td><td>41</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subtopic-row"><td rowspan="2"><strong>Electrochemistry</strong></td><td>Faraday's law — mass deposited</td><td>28</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Nernst equation — half-cell EMF</td><td>34</td><td><span class="diff-tag hard">Hard</span></td></tr>
+                                <tr class="subtopic-row"><td rowspan="2"><strong>Solutions</strong></td><td>Molality & molarity calculations</td><td>26</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Raoult's law — negative deviation (H-bonding)</td><td>44</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subtopic-row"><td><strong>States of Matter</strong></td><td>Gas stoichiometry (CO₂ + C → 2CO)</td><td>39</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subtopic-row"><td><strong>Some Basic Concepts</strong></td><td>Mole concept — number of H atoms in urea</td><td>16</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Inorganic Chemistry -->
+                <div class="topic-card">
+                    <div class="topic-header" onclick="toggleTopic(this)">
+                        <span><span class="arrow">▶</span> 🧱 Inorganic Chemistry</span><span class="freq">12 Qs</span>
+                    </div>
+                    <div class="topic-body collapsed">
+                        <table>
+                            <thead><tr><th>Sub-Topic</th><th>Sub-Sub-Topic</th><th>Q#</th><th>Diff.</th></tr></thead>
+                            <tbody>
+                                <tr class="subtopic-row"><td rowspan="2"><strong>Periodic Properties</strong></td><td>Metallic character trend (P<Si<Be<Mg<Na)</td><td>19</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Atomic size, IUPAC naming, diagonal relationship</td><td>43</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subtopic-row"><td rowspan="3"><strong>Chemical Bonding</strong></td><td>σ & π bond counting (C₂H₄, C₂H₂, CH₄, NH₃)</td><td>14</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subsubtopic-row"><td>VSEPR — ClF₃ T-shaped geometry</td><td>31</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Formal charge on O atoms in ozone</td><td>37</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subtopic-row"><td rowspan="2"><strong>p-Block Elements</strong></td><td>Group 15 — dπ-pπ bonding, catenation</td><td>17</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Group 16 — O oxidation states, Group 14 catenation</td><td>36</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subtopic-row"><td><strong>d & f Block Elements</strong></td><td>Lanthanoid — Ce⁴⁺ stability (4f⁰ config)</td><td>21</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subtopic-row"><td rowspan="3"><strong>Coordination Chemistry</strong></td><td>Isomerism types (geometrical, optical, linkage, solvate)</td><td>8</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Ambidentate ligand (SCN⁻)</td><td>18</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Shapes — square planar, octahedral, tetrahedral, TBP</td><td>23</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subtopic-row"><td><strong>Magnetic Moment</strong></td><td>Spin-only formula (μ=√n(n+2) BM), Ti²⁺</td><td>35</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Organic Chemistry -->
+                <div class="topic-card">
+                    <div class="topic-header" onclick="toggleTopic(this)">
+                        <span><span class="arrow">▶</span> 🧬 Organic Chemistry</span><span class="freq">14 Qs</span>
+                    </div>
+                    <div class="topic-body collapsed">
+                        <table>
+                            <thead><tr><th>Sub-Topic</th><th>Sub-Sub-Topic</th><th>Q#</th><th>Diff.</th></tr></thead>
+                            <tbody>
+                                <tr class="subtopic-row"><td><strong>Nitriles → Amines</strong></td><td>Reducing agents (LiAlH₄, H₂/Ni, Na/Hg)</td><td>1</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subtopic-row"><td><strong>Metamerism</strong></td><td>Functional group isomerism in ethers</td><td>7</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subtopic-row"><td><strong>IUPAC Nomenclature</strong></td><td>Naming branched alkanes</td><td>10</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subtopic-row"><td rowspan="2"><strong>Carbonyl Compounds</strong></td><td>2,4-DNP test, Fehling's, oxidation to acid</td><td>13</td><td><span class="diff-tag hard">Hard</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Phthalein dye test — phenolic group</td><td>24</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subtopic-row"><td><strong>Nucleophilic Substitution</strong></td><td>AgCN vs KCN — isocyanide formation</td><td>15</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subtopic-row"><td rowspan="2"><strong>Reaction Sequences</strong></td><td>Cumene→phenol, ethanoic acid→ethanol, etc.</td><td>20</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Propan-1-ol → PCl₅ → elimination → HBr/peroxide</td><td>22</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subtopic-row"><td><strong>Separation Techniques</strong></td><td>Fractional distillation (o/p-nitrotoluene)</td><td>25</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subtopic-row"><td><strong>Qualitative Analysis</strong></td><td>Lassaigne's test (covalent→ionic), acetate test</td><td>27,32</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subtopic-row"><td><strong>Indicators</strong></td><td>Phenolphthalein in acid-base titration</td><td>38</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subtopic-row"><td><strong>Diazonium Chemistry</strong></td><td>Ethylamine → NaNO₂/HCl → ethanol</td><td>40</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subtopic-row"><td><strong>Hydrocarbons</strong></td><td>Steam reforming (CH₄→CO+3H₂), Benzene chlorination</td><td>12,45</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subtopic-row"><td><strong>Biomolecules</strong></td><td>DNA/RNA secondary structure</td><td>6</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subtopic-row"><td><strong>Transition Metal Catalysis</strong></td><td>V₂O₅, Fe, PdCl₂, Ni complex roles</td><td>2</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BIOLOGY SECTION -->
+        <div class="subject-section">
+            <div class="subject-header biology" onclick="toggleSection(this)">
+                🧬 BIOLOGY — 90 Questions
+                <span class="badge biology">22 Topics</span>
+            </div>
+            <div class="subject-body collapsed" id="biology-body">
+                <div class="summary-mini">
+                    <span class="s-easy">Easy: ~42 Qs</span><span class="s-medium">Medium: ~42 Qs</span><span class="s-hard">Hard: ~6 Qs</span>
+                </div>
+
+                <!-- Diversity & Taxonomy -->
+                <div class="topic-card">
+                    <div class="topic-header" onclick="toggleTopic(this)">
+                        <span><span class="arrow">▶</span> 🌿 Diversity & Taxonomy</span><span class="freq">12 Qs</span>
+                    </div>
+                    <div class="topic-body collapsed">
+                        <table>
+                            <thead><tr><th>Sub-Topic</th><th>Sub-Sub-Topic</th><th>Q#</th><th>Diff.</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Plant Kingdom</strong></td><td>Gymnosperms — naked ovules (Pinus)</td><td>2</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr><td><strong>Binomial Nomenclature</strong></td><td>Rules — genus first, specific epithet second</td><td>14</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr><td><strong>Five Kingdom Classification</strong></td><td>Whittaker's criteria (cell structure, body org., repro., phylogeny)</td><td>42</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subtopic-row"><td rowspan="4"><strong>Animal Kingdom</strong></td><td>Frog — sexual dimorphism (vocal sacs, copulatory pads)</td><td>56</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Petromyzon (lamprey) — cartilaginous, parasitic, gill slits</td><td>57</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Osteichthyes — Flying fish, Angel fish, Fighting fish</td><td>63</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Phylum characteristics — Platyhelminthes, Echinodermata, etc.</td><td>64</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subtopic-row"><td rowspan="2"><strong>Animal Physiology — Respiration</strong></td><td>Molluscs (branchial), Reptiles (pulmonary), Amphibians (pulm+cutaneous), Amoeba (cellular)</td><td>69</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Flightless birds — Aptenodytes (penguin)</td><td>89</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr><td><strong>Frog Anatomy</strong></td><td>Hepatic portal, cranial nerves, cloaca, sinus venosus</td><td>76</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Cell Biology & Biomolecules -->
+                <div class="topic-card">
+                    <div class="topic-header" onclick="toggleTopic(this)">
+                        <span><span class="arrow">▶</span> 🔬 Cell Biology & Biomolecules</span><span class="freq">13 Qs</span>
+                    </div>
+                    <div class="topic-body collapsed">
+                        <table>
+                            <thead><tr><th>Sub-Topic</th><th>Sub-Sub-Topic</th><th>Q#</th><th>Diff.</th></tr></thead>
+                            <tbody>
+                                <tr class="subtopic-row"><td rowspan="2"><strong>Biomolecules</strong></td><td>Protein structure — alpha-helix (secondary)</td><td>8</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Lipids, proteins, polysaccharides, enzymes</td><td>33</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr><td><strong>Amino Acids</strong></td><td>Substituted methanes, valine (neutral), lysine (basic)</td><td>36</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr><td><strong>Enzyme Classification</strong></td><td>Lyases — bond breaking forming C=C</td><td>51</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subtopic-row"><td rowspan="2"><strong>Cell Organelles</strong></td><td>Nucleolus — rRNA synthesis</td><td>16</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Ribosomes — non-membrane bound in prok & euk</td><td>65</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subtopic-row"><td rowspan="2"><strong>Endomembrane System</strong></td><td>Mitochondria NOT part, RER has ribosomes, circular DNA</td><td>85</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Cell membrane — phospholipid bilayer, hydrophobic tails, glycocalyx</td><td>86</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr><td><strong>Bioactive Molecules</strong></td><td>Trypsin, Morphine, Concanavalin A, Collagen</td><td>43</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr><td><strong>Cell Cycle</strong></td><td>G1, S, G2, M phase activities</td><td>11</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Plant Physiology -->
+                <div class="topic-card">
+                    <div class="topic-header" onclick="toggleTopic(this)">
+                        <span><span class="arrow">▶</span> 🌱 Plant Physiology</span><span class="freq">11 Qs</span>
+                    </div>
+                    <div class="topic-body collapsed">
+                        <table>
+                            <thead><tr><th>Sub-Topic</th><th>Sub-Sub-Topic</th><th>Q#</th><th>Diff.</th></tr></thead>
+                            <tbody>
+                                <tr class="subtopic-row"><td rowspan="3"><strong>Photosynthesis</strong></td><td>Water splitting — PS II (not PS I), Kranz in C4</td><td>21</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subsubtopic-row"><td>RuBisCO — carboxylation in Calvin cycle</td><td>26</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subsubtopic-row"><td>ATP & NADPH requirement (18 ATP + 12 NADPH per glucose)</td><td>27</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subtopic-row"><td rowspan="3"><strong>Respiration</strong></td><td>RQ calculation (CO₂/O₂ for fat ~0.7)</td><td>17</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Glycolysis (cytoplasm), ETS (inner mito. membrane), Krebs (matrix)</td><td>38</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Respiration steps order — ventilation→diffusion→transport→tissue→cellular</td><td>48</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subtopic-row"><td rowspan="3"><strong>Plant Growth Regulators</strong></td><td>2,4-D (herbicide), GA3 (brewing), Kinetin (nutrient mobilisation), ABA (stomatal closure)</td><td>25</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Heterophylly — phenotypic plasticity</td><td>35</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Elongation phase — large nuclei NOT characteristic</td><td>24</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Human Physiology -->
+                <div class="topic-card">
+                    <div class="topic-header" onclick="toggleTopic(this)">
+                        <span><span class="arrow">▶</span> 🫀 Human Physiology</span><span class="freq">14 Qs</span>
+                    </div>
+                    <div class="topic-body collapsed">
+                        <table>
+                            <thead><tr><th>Sub-Topic</th><th>Sub-Sub-Topic</th><th>Q#</th><th>Diff.</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Endocrine System</strong></td><td>Cortisol, Aldosterone, Cholecystokinin, Progesterone</td><td>46</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr><td><strong>Renin-Angiotensin</strong></td><td>Sequence: GFR fall→renin→AngII→vasoconstriction→aldosterone→Na+ reabsorption</td><td>47</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr><td><strong>Neural Control</strong></td><td>Neurotransmitter receptors on post-synaptic membrane</td><td>52</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr><td><strong>Respiratory Volumes</strong></td><td>ERV, RV, IRV, TV matching</td><td>54</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr><td><strong>WBC Count</strong></td><td>Eosinophils (2-3%) & Lymphocytes (20-25%) of 8000</td><td>60</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr><td><strong>Rh Grouping</strong></td><td>Erythroblastosis foetalis — Rh⁻ mother, Rh⁺ foetus</td><td>67</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr><td><strong>Muscle Contraction</strong></td><td>Motor neuron→Ca²⁺ release→cross-bridge→sarcomere shortening</td><td>71</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr><td><strong>Skeletal System</strong></td><td>Dicondylic skull, cartilaginous joints, 7 cervical vertebrae</td><td>72</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr><td><strong>JGA</strong></td><td>Distal convoluted tubule + afferent arteriole</td><td>74</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr><td><strong>Muscular/Skeletal Disorders</strong></td><td>Tetany, Arthritis, Myasthenia gravis, Muscular dystrophy</td><td>87</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Genetics & Evolution -->
+                <div class="topic-card">
+                    <div class="topic-header" onclick="toggleTopic(this)">
+                        <span><span class="arrow">▶</span> 🧬 Genetics & Evolution</span><span class="freq">15 Qs</span>
+                    </div>
+                    <div class="topic-body collapsed">
+                        <table>
+                            <thead><tr><th>Sub-Topic</th><th>Sub-Sub-Topic</th><th>Q#</th><th>Diff.</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Inheritance Patterns</strong></td><td>Incomplete dom., Co-dominance, Pleiotropy, Polygenic inheritance</td><td>18</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr><td><strong>Sex Determination</strong></td><td>Honeybees — haplodiploidy (fertilised=female, unfertilised=male)</td><td>34</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr><td><strong>Blood Groups</strong></td><td>ABO inheritance — probability of O blood group (25%)</td><td>53</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr><td><strong>Sickle Cell Anaemia</strong></td><td>Glu→Val at 6th position of β-globin (GAG→GUG)</td><td>45,70</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr><td><strong>Sex Determination</strong></td><td>Grasshopper XO — male=23(XO), female=24(XX)</td><td>78</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr><td><strong>Gamete Formation</strong></td><td>Male honeybees — mitosis for gametes (haploid)</td><td>79</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subtopic-row"><td rowspan="3"><strong>Evolution</strong></td><td>Convergent evolution — forelimbs of whales & bats (homologous)</td><td>55</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Evolutionary timeline — Dinosaurs (65mya), Jawless fish (350mya), etc.</td><td>58</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Human evolution — Ramapithecus→H.habilis→H.erectus→Neanderthal→H.sapiens</td><td>88</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Molecular Biology & Biotechnology -->
+                <div class="topic-card">
+                    <div class="topic-header" onclick="toggleTopic(this)">
+                        <span><span class="arrow">▶</span> 🧪 Molecular Biology & Biotechnology</span><span class="freq">18 Qs</span>
+                    </div>
+                    <div class="topic-body collapsed">
+                        <table>
+                            <thead><tr><th>Sub-Topic</th><th>Sub-Sub-Topic</th><th>Q#</th><th>Diff.</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Lac Operon</strong></td><td>lacZ gene → β-galactosidase</td><td>3</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr><td><strong>Bioprospecting</strong></td><td>Exploring biodiversity for economic products</td><td>4</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr><td><strong>GMO & Vectors</strong></td><td>Bt cotton, Taq polymerase, Ti plasmid, pBR322</td><td>5</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr><td><strong>PCR</strong></td><td>Denaturation→Annealing→Extension</td><td>10</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr><td><strong>Transcription Unit</strong></td><td>Promoter (5'), structural gene, terminator (3')</td><td>13</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr><td><strong>DNA Fingerprinting</strong></td><td>Isolation→digestion→electrophoresis→transfer→hybridisation→autoradiography</td><td>19</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr><td><strong>DNA Packaging</strong></td><td>Histone octamer, lysine/arginine rich, non-histone proteins</td><td>20</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr><td><strong>Somatic Hybridisation</strong></td><td>Cell isolation→wall digestion→protoplast→fusion→regeneration</td><td>22</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr><td><strong>Restriction Endonucleases</strong></td><td>Molecular scissors, palindromic sites, NOT exonuclease</td><td>30</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr><td><strong>DNA Visualisation</strong></td><td>Electrophoresis, ethidium bromide, UV light</td><td>44</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr><td><strong>pBR322</strong></td><td>BamHI insertion → loss of tetracycline resistance</td><td>50</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr><td><strong>Transgenic Animals</strong></td><td>α-1-antitrypsin for emphysema treatment</td><td>62</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr><td><strong>Bioactive Molecules (Biotech)</strong></td><td>Streptokinase, Statins, Lipases, Cyclosporin A</td><td>68</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr><td><strong>Swiss Cheese</strong></td><td>CO₂ by Propionibacterium sharmanii</td><td>81</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr><td><strong>Bt Toxin Genes</strong></td><td>cryIAc (cotton bollworm), cryIAb (corn borer)</td><td>82</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Ecology -->
+                <div class="topic-card">
+                    <div class="topic-header" onclick="toggleTopic(this)">
+                        <span><span class="arrow">▶</span> 🌍 Ecology & Environment</span><span class="freq">12 Qs</span>
+                    </div>
+                    <div class="topic-body collapsed">
+                        <table>
+                            <thead><tr><th>Sub-Topic</th><th>Sub-Sub-Topic</th><th>Q#</th><th>Diff.</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Productivity</strong></td><td>GPP, NPP, Secondary productivity definitions</td><td>6</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr><td><strong>Mass Extinctions</strong></td><td>6th extinction — 100-1000× faster than pre-human</td><td>7</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr><td><strong>Biodiversity Loss</strong></td><td>Habitat loss, over-exploitation, alien species, co-extinctions</td><td>12</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr><td><strong>Decomposition</strong></td><td>Decomposition, Detritus, Mineralisation, Humification</td><td>15</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr><td><strong>In Situ Conservation</strong></td><td>Sacred Groves (natural habitat protection)</td><td>29</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr><td><strong>Evil Quartet</strong></td><td>Habitat loss, over-exploitation, alien species, co-extinctions</td><td>37</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr><td><strong>Logistic Growth</strong></td><td>dN/dt = rN((K−N)/K)</td><td>66</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr><td><strong>Sexual Deceit</strong></td><td>Ophrys orchid & bumblebee</td><td>75</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr><td><strong>Ecological Pyramids</strong></td><td>Inverted biomass pyramid in sea</td><td>83</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr><td><strong>Population Interactions</strong></td><td>Mutualism, Parasitism, Amensalism, Commensalism</td><td>90</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Reproduction -->
+                <div class="topic-card">
+                    <div class="topic-header" onclick="toggleTopic(this)">
+                        <span><span class="arrow">▶</span> 🍼 Reproduction (Plant & Human)</span><span class="freq">11 Qs</span>
+                    </div>
+                    <div class="topic-body collapsed">
+                        <table>
+                            <thead><tr><th>Sub-Topic</th><th>Sub-Sub-Topic</th><th>Q#</th><th>Diff.</th></tr></thead>
+                            <tbody>
+                                <tr class="subtopic-row"><td rowspan="4"><strong>Plant Reproduction</strong></td><td>Microsporogenesis — Sporogenous tissue→PMC→tetrads→pollen</td><td>32</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Triploid cell — Primary endosperm cell (3n)</td><td>39</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Xenogamy — genetically different pollen</td><td>40</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Placentation — Marginal(Pea), Axile(Lemon), Parietal(Mustard), Basal(Marigold)</td><td>41</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr class="subtopic-row"><td rowspan="4"><strong>Human Reproduction</strong></td><td>Contraceptives — Progestasert, Multiload 375, Diaphragm, Saheli</td><td>59</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Spermatogenesis — Secondary spermatocyte→meiosis II→spermatids→spermiogenesis</td><td>73</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Embryonic development — 8 weeks limbs, 12 weeks genitalia, 20 weeks movement</td><td>77</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr class="subsubtopic-row"><td>Ovum layers — Corona radiata→Zona pellucida→Perivitelline space→Plasma membrane</td><td>80</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr><td><strong>GIFT</strong></td><td>Ovum transfer into fallopian tube (in vivo fertilization)</td><td>84</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Plant Anatomy & Morphology -->
+                <div class="topic-card">
+                    <div class="topic-header" onclick="toggleTopic(this)">
+                        <span><span class="arrow">▶</span> 🌸 Plant Anatomy & Morphology</span><span class="freq">8 Qs</span>
+                    </div>
+                    <div class="topic-body collapsed">
+                        <table>
+                            <thead><tr><th>Sub-Topic</th><th>Sub-Sub-Topic</th><th>Q#</th><th>Diff.</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Root Anatomy</strong></td><td>Root hairs — region of maturation (differentiation)</td><td>1</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr><td><strong>Bulliform Cells</strong></td><td>Leaf rolling to minimise water loss during stress</td><td>9</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                                <tr><td><strong>Conjunctive Tissue</strong></td><td>Between xylem & phloem; Casparian strips — suberin</td><td>23</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr><td><strong>Solanaceae</strong></td><td>Floral formula — ⊕ K(5) C(5) A5 G(2)</td><td>28</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr><td><strong>Racemose Inflorescence</strong></td><td>Acropetal succession, indefinite growth</td><td>31</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Human Health & Disease -->
+                <div class="topic-card">
+                    <div class="topic-header" onclick="toggleTopic(this)">
+                        <span><span class="arrow">▶</span> 💊 Human Health & Disease</span><span class="freq">4 Qs</span>
+                    </div>
+                    <div class="topic-body collapsed">
+                        <table>
+                            <thead><tr><th>Sub-Topic</th><th>Sub-Sub-Topic</th><th>Q#</th><th>Diff.</th></tr></thead>
+                            <tbody>
+                                <tr><td><strong>Plasmodium Life Cycle</strong></td><td>Mosquito→sporozoites→liver→RBCs→gametocytes</td><td>49</td><td><span class="diff-tag medium">Medium</span></td></tr>
+                                <tr><td><strong>Drug Effects</strong></td><td>Nicotine, Morphine, Heroin, Cocaine</td><td>61</td><td><span class="diff-tag easy">Easy</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW SECTION: Get 15 Years Detailed Analysis -->
+        <div class="promo-banner" style="background: linear-gradient(135deg, #74b9ff 0%, #a1c4fd 100%); border-color: #74b9ff; margin-top: 20px; margin-bottom: 20px;">
+            <div class="promo-content">
+                <h2>📊 Get 15 Years Detailed Analysis Here</h2>
+                <p>Access comprehensive NEET topic-wise analysis covering 2010-2024 with frequency, trends, and predictions.</p>
+            </div>
+            <a href="https://drive.google.com/drive/u/3/folders/15nM5V0fFwv5pMrnp_TgCBwoClZY8EdtI" target="_blank" class="promo-button" style="background: #0984e3; box-shadow: 0 4px 14px rgba(9, 132, 227, 0.4);">📁 G-Drive</a>
+        </div>
+
+        <!-- PROMO BANNER FOR MOCK PAPERS -->
+        <div class="promo-banner" style="margin-top: 0; margin-bottom: 20px;">
+            <div class="promo-content">
+                <h2>🚀 NEET Mock Papers crafted by Top LLM Models</h2>
+                <p>Get high-quality, AI-generated NEET mock tests at an unbeatable price of just <strong>₹49</strong>. Boost your preparation with cutting-edge intelligence.</p>
+            </div>
+            <a href="https://rzp.io/rzp/predicyai" target="_blank" class="promo-button">Get Mock Papers Now →</a>
+        </div>
+
+        <!-- FOOTER -->
+        <div style="text-align:center;padding:20px;color:#888;font-size:0.8rem;">
+            📊 Analysis generated from NEET 2026 Code 11 Answer Key | Difficulty: Easy ~62% · Medium ~32% · Hard ~6% | Total: 180 Questions across Physics (45), Chemistry (45), Biology (90)
+        </div>
+    </div>
+
+    <script>
+        function toggleSection(header) {
+            const body = header.nextElementSibling;
+            body.classList.toggle('collapsed');
+        }
+
+        function toggleTopic(header) {
+            const body = header.nextElementSibling;
+            body.classList.toggle('collapsed');
+            header.classList.toggle('open');
+        }
+
+        // Initialize: Chemistry & Biology sections start collapsed; Physics starts open
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('chemistry-body').classList.add('collapsed');
+            document.getElementById('biology-body').classList.add('collapsed');
+        });
+    </script>
+</body>
+</html>
